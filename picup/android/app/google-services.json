@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "389819776938",
+    "project_id": "picup-efa30",
+    "storage_bucket": "picup-efa30.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:389819776938:android:b99655cddf62f411a275d3",
+        "android_client_info": {
+          "package_name": "com.example.picup"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDm8lSqqmyfG_w0aGV_gDrYC8IyZ_-6SM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
