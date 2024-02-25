@@ -18,6 +18,20 @@ class AuthRepositoryImp extends AuthRepository {
       return Left(Fail(e));
     }
   }
+
+  @override
+  Future<Either<Fail, void>> register(
+      {required String email,
+      required String password,
+      required String username}) async {
+    try {
+      final res = await remoteDatasource.register(
+          email: email, password: password, username: username);
+      return const Right("");
+    } catch (e) {
+      return Left(Fail(e));
+    }
+  }
 }
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {

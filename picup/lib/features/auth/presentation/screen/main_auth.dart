@@ -41,7 +41,9 @@ class MainAuth extends ConsumerWidget {
                 SizedBox(
                     width: 300,
                     child: AppButton(
-                      onTap: () {},
+                      onTap: () {
+                        context.go("/auth/register");
+                      },
                       text: "Register",
                       variation: AppButtonVariation.secondary,
                     ))

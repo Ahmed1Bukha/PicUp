@@ -1,0 +1,2 @@
+1: Course 
+2: Enum days

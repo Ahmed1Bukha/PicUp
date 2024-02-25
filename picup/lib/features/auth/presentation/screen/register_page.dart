@@ -19,20 +19,23 @@ final passwordContorllerProvider =
   return TextEditingController();
 });
 
+final usernameContorllerProvider =
+    Provider.autoDispose<TextEditingController>((ref) {
+  return TextEditingController();
+});
 final isAuthErrorLoginProvider = StateProvider.autoDispose<bool>((ref) {
   return false;
 });
 final _formKey = GlobalKey<FormState>();
 
-class LoginPage extends ConsumerWidget {
-  const LoginPage({super.key});
+class RegisterPage extends ConsumerWidget {
+  const RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        elevation: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -42,17 +45,30 @@ class LoginPage extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Login",
+                "Register",
                 style: TextHeadersContatns.h1
                     .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
               ),
               Text(
-                "Welcome back my friend!",
+                "Enhance your academic journey with us!",
+                textAlign: TextAlign.center,
                 style: TextHeadersContatns.h4
-                    .copyWith(color: Colors.white, fontWeight: FontWeight.w400),
+                    .copyWith(color: Colors.white, fontWeight: FontWeight.w300),
               ),
               const AppDevider(),
-              AppSpacing.kSpaceY12,
+              AppSpacing.kSpaceY1,
+              AppTextfield(
+                controller: ref.watch(usernameContorllerProvider),
+                label: "Username",
+                hint: "Shibhab Ahmed",
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              AppSpacing.kSpaceY8,
               AppTextfield(
                 controller: ref.watch(emailContorllerProvider),
                 label: "Email",
@@ -88,28 +104,32 @@ class LoginPage extends ConsumerWidget {
               ref.watch(authenticationNotifierProvider) is AsyncLoading
                   ? const AppProgressIndicator()
                   : AppButton(
+                      variation: AppButtonVariation.secondary,
                       onTap: () async {
                         if (_formKey.currentState!.validate()) {
-                          ref.read(isAuthErrorLoginProvider.notifier).state =
-                              false;
-                          print("helllo");
                           final res = await ref
                               .read(authenticationNotifierProvider.notifier)
-                              .login(
+                              .register(
                                   email:
                                       ref.watch(emailContorllerProvider).text,
                                   password: ref
                                       .watch(passwordContorllerProvider)
+                                      .text,
+                                  username: ref
+                                      .watch(usernameContorllerProvider)
                                       .text);
                           res.fold(
                               (l) => ref
                                   .read(isAuthErrorLoginProvider.notifier)
                                   .state = true, (r) {
+                            ref.read(isAuthErrorLoginProvider.notifier).state =
+                                false;
                             context.go("/camera");
                           });
                         }
+                        print("helllo");
                       },
-                      text: "Log In")
+                      text: "Create My Account")
             ],
           ),
         ),

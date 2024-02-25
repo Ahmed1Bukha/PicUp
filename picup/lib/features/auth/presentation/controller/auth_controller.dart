@@ -14,11 +14,23 @@ class AuthenticationNotifier extends _$AuthenticationNotifier {
 
   Future<Either<Fail, void>> login(
       {required String email, required String password}) async {
-    state = const AsyncLoading();
-    final res = ref
+    state = const AsyncValue<void>.loading();
+    final res = await ref
         .read(authRepositoryProvider)
         .login(email: email, password: password);
-    state = const AsyncData(null);
+    state = const AsyncValue.data(null);
+    return res;
+  }
+
+  Future<Either<Fail, void>> register(
+      {required String email,
+      required String password,
+      required String username}) async {
+    state = const AsyncValue<void>.loading();
+    final res = await ref
+        .read(authRepositoryProvider)
+        .register(email: email, password: password, username: username);
+    state = const AsyncValue.data(null);
     return res;
   }
 }

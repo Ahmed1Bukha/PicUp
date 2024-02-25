@@ -7,11 +7,21 @@ class AppTextfield extends StatelessWidget {
       required this.hint,
       required this.controller,
       this.obscureText = false,
+      this.validator,
+      this.height,
+      this.width,
+      this.ontab,
+      this.enabled,
       super.key});
   final String label;
   final String hint;
   final TextEditingController controller;
   bool obscureText;
+  String? Function(String?)? validator;
+  double? height;
+  double? width;
+  Function? ontab;
+  bool? enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -23,28 +33,56 @@ class AppTextfield extends StatelessWidget {
           style: TextBodyConstants.bold16
               .copyWith(color: ColorConstants.PRIMARY_200),
         ),
-        TextField(
-          controller: controller,
-          cursorColor: ColorConstants.PRIMARY_500,
-          obscureText: obscureText,
-          decoration: InputDecoration(
-            hintText: hint,
-            filled: true,
-            fillColor: Colors.white,
-            focusColor: ColorConstants.PRIMARY_300,
-            enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(
-                color: ColorConstants.PRIMARY_200,
-                width: 2,
+        SizedBox(
+          height: height,
+          width: width,
+          child: TextFormField(
+            enableInteractiveSelection: enabled,
+            onTap: () {
+              if (ontab != null) {
+                ontab!();
+              }
+            },
+            validator: validator,
+            controller: controller,
+            cursorColor: ColorConstants.PRIMARY_500,
+            obscureText: obscureText,
+            decoration: InputDecoration(
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              errorBorder: const OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.red,
+                  width: 2,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-            ),
-            focusedBorder: const OutlineInputBorder(
+              hintText: hint,
+              filled: true,
+              focusedErrorBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.red.shade200,
+                  width: 2,
+                ),
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+              ),
+              errorStyle: TextBodyConstants.bold14.copyWith(color: Colors.red),
+              fillColor: Colors.white,
+              focusColor: ColorConstants.PRIMARY_300,
+              enabledBorder: const OutlineInputBorder(
                 borderSide: BorderSide(
                   color: ColorConstants.PRIMARY_200,
                   width: 2,
                 ),
-                borderRadius: BorderRadius.all(Radius.circular(8))),
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: ColorConstants.PRIMARY_200,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(8))),
+            ),
           ),
         ),
       ],
