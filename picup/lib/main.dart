@@ -19,7 +19,8 @@ void main() async {
   Hive.registerAdapter(CourseAdapter());
   Hive.registerAdapter(DaysCourseAdapter());
 
-  var box = await Hive.openBox('mybox');
+  var box = await Hive.openBox('course');
+
   runApp(const ProviderScope(child: MyApp()));
 }
 

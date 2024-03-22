@@ -3,12 +3,12 @@ import 'package:go_router/go_router.dart';
 import 'package:picup/features/auth/presentation/screen/login_page.dart';
 import 'package:picup/features/auth/presentation/screen/main_auth.dart';
 import 'package:picup/features/auth/presentation/screen/register_page.dart';
-import 'package:picup/features/camera/presentation/home_page.dart';
+import 'package:picup/features/camera/presentation/screens/home_page.dart';
 import 'package:picup/features/on_boarding/presentation/screen/on_boarding_main.dart';
 import 'package:picup/features/schedule/presentation/screens/schedule.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: "/camera/schedule",
+  initialLocation: "/schedule",
   routes: <RouteBase>[
     GoRoute(
       path: '/',
@@ -17,6 +17,10 @@ final GoRouter router = GoRouter(
         GoRoute(
           path: 'onboarding',
           builder: (context, state) => const OnBoardingMain(),
+        ),
+        GoRoute(
+          path: 'schedule',
+          builder: (context, state) => const SchedulePage(),
         ),
         GoRoute(
             path: 'auth',
@@ -31,29 +35,6 @@ final GoRouter router = GoRouter(
                 builder: (context, state) => const RegisterPage(),
               ),
             ]),
-
-        GoRoute(
-            path: 'camera',
-            builder: (context, state) => const HomePage(),
-            routes: [
-              GoRoute(
-                path: 'schedule',
-                builder: (context, state) => const SchedulePage(),
-              ),
-            ]),
-
-        // GoRoute(
-        //   path: 'settings',
-        // ),
-        // GoRoute(
-        //   path: 'schedule',
-        // ),
-        // GoRoute(path: 'courses', routes: [
-        //   GoRoute(
-        //     path: ':id',
-        //     //TODO: take query
-        //   ),
-        // ]),
       ],
     ),
   ],

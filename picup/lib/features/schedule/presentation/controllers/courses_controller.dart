@@ -18,6 +18,29 @@ class CoursesControllerNotifier extends AsyncNotifier<void> {
     state = AsyncValue.data('');
     return res;
   }
+
+  Future<Either<Fail, void>> deleteCourse(Course course) async {
+    state = AsyncValue.loading();
+    final res =
+        await ref.read(scheduleRepositoryProvider).deleteCourse(course: course);
+    state = AsyncValue.data('');
+    return res;
+  }
+
+  Future<Either<Fail, void>> editCourse(Course course) async {
+    state = AsyncValue.loading();
+    final res =
+        await ref.read(scheduleRepositoryProvider).editCourse(course: course);
+    state = AsyncValue.data('');
+    return res;
+  }
+
+  Future<Either<Fail, void>> deleteAllCourses() async {
+    state = AsyncValue.loading();
+    final res = await ref.read(scheduleRepositoryProvider).deleteAllCourses();
+    state = AsyncValue.data('');
+    return res;
+  }
 }
 
 final coursesControllerProvider =

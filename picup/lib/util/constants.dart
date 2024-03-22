@@ -7,6 +7,7 @@ class ColorConstants {
   static const PRIMARY_200 = Color(0xff07F8CC);
   static const PRIMARY_100 = Color(0xffB3FFF1);
   static const PRIMARY_50 = Color(0xffE1FFFA);
+  static const ERROR_COLOR = (Color.fromARGB(255, 255, 99, 88));
 }
 
 class TextHeadersContatns {

@@ -21,13 +21,14 @@ class CourseAdapter extends TypeAdapter<Course> {
       days: (fields[1] as List).cast<DaysCourse>(),
       startTime: fields[2] as DateTime,
       endTime: fields[3] as DateTime,
+      id: fields[4] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Course obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -35,7 +36,9 @@ class CourseAdapter extends TypeAdapter<Course> {
       ..writeByte(2)
       ..write(obj.startTime)
       ..writeByte(3)
-      ..write(obj.endTime);
+      ..write(obj.endTime)
+      ..writeByte(4)
+      ..write(obj.id);
   }
 
   @override

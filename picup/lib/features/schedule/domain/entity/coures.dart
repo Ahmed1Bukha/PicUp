@@ -12,12 +12,42 @@ class Course {
   final DateTime startTime;
   @HiveField(3)
   final DateTime endTime;
+  @HiveField(4)
+  final String id;
 
   Course(
       {required this.name,
       required this.days,
       required this.startTime,
-      required this.endTime});
+      required this.endTime,
+      required this.id});
+
+  bool hasDay(DaysCourse day) {
+    print(day);
+    return days.contains(day);
+  }
+
+  DaysCourse getDayName(String day) {
+    switch (day) {
+      case "Saturday":
+        return DaysCourse.sat;
+
+      case "Sunday":
+        return DaysCourse.sun;
+      case "Monday":
+        return DaysCourse.mon;
+      case "Tuesday":
+        return DaysCourse.tue;
+      case "Wednesday":
+        return DaysCourse.wed;
+      case "Thursday":
+        return DaysCourse.thu;
+      case "Friday":
+        return DaysCourse.fri;
+      default:
+        return DaysCourse.sun;
+    }
+  }
 }
 
 @HiveType(typeId: 2)

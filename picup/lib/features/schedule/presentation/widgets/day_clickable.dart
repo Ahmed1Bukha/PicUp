@@ -4,7 +4,12 @@ import 'package:picup/util/constants.dart';
 class DayClickable extends StatefulWidget {
   final String day;
   final Function onclick;
-  const DayClickable({required this.day, required this.onclick, super.key});
+  bool initValue;
+  DayClickable(
+      {required this.day,
+      required this.onclick,
+      super.key,
+      this.initValue = false});
 
   @override
   State<DayClickable> createState() => _DayClickableState();
@@ -12,6 +17,12 @@ class DayClickable extends StatefulWidget {
 
 class _DayClickableState extends State<DayClickable> {
   bool isClicked = false;
+  @override
+  void initState() {
+    isClicked = widget.initValue;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -21,8 +32,8 @@ class _DayClickableState extends State<DayClickable> {
         setState(() {});
       },
       child: AnimatedContainer(
-        width: 50,
-        height: 50,
+        width: 40,
+        height: 40,
         duration: Durations.short3,
         decoration: BoxDecoration(
           color: isClicked

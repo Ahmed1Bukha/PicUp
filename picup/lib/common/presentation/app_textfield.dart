@@ -66,7 +66,8 @@ class AppTextfield extends StatelessWidget {
                 ),
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
               ),
-              errorStyle: TextBodyConstants.bold14.copyWith(color: Colors.red),
+              errorStyle: TextBodyConstants.bold12
+                  .copyWith(color: ColorConstants.ERROR_COLOR),
               fillColor: Colors.white,
               focusColor: ColorConstants.PRIMARY_300,
               enabledBorder: const OutlineInputBorder(

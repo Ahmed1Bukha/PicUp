@@ -20,15 +20,25 @@ class ScheduleRepositoryImp extends ScheduleRepository {
   }
 
   @override
-  Future<Either<Fail, void>> deleteCourse({required Course course}) {
-    // TODO: implement deleteCourse
-    throw UnimplementedError();
+  Future<Either<Fail, void>> deleteCourse({required Course course}) async {
+    try {
+      final res = await localDatasource.deleteCourse(course);
+      return Right("");
+    } catch (e) {
+      print(e);
+      return Left(Fail(e.toString()));
+    }
   }
 
   @override
-  Future<Either<Fail, void>> editCourse({required Course course}) {
-    // TODO: implement editCourse
-    throw UnimplementedError();
+  Future<Either<Fail, void>> editCourse({required Course course}) async {
+    try {
+      final res = await localDatasource.editCourse(course);
+      return Right("");
+    } catch (e) {
+      print(e);
+      return Left(Fail(e.toString()));
+    }
   }
 
   @override
@@ -40,6 +50,17 @@ class ScheduleRepositoryImp extends ScheduleRepository {
     } catch (e) {
       print(e);
       throw Exception();
+    }
+  }
+
+  @override
+  Future<Either<Fail, void>> deleteAllCourses() async {
+    try {
+      final res = localDatasource.deleteAllCourses();
+      return Right("");
+    } catch (e) {
+      print(e);
+      return Left(Fail(e.toString()));
     }
   }
 }

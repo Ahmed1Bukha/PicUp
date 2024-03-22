@@ -1,12 +1,14 @@
-import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:picup/common/presentation/app_progress_indicator.dart';
 import 'package:picup/features/schedule/domain/entity/coures.dart';
 import 'package:picup/features/schedule/presentation/controllers/courses_controller.dart';
 import 'package:picup/features/schedule/presentation/controllers/get_courses.dart';
+import 'package:picup/features/schedule/presentation/controllers/get_days_num.dart';
 import 'package:picup/features/schedule/presentation/widgets/add_course_bottomsheet.dart';
-import 'package:picup/main.dart';
+
 import 'package:picup/util/constants.dart';
 import 'package:time_planner/time_planner.dart';
 
@@ -18,52 +20,139 @@ class SchedulePage extends ConsumerStatefulWidget {
 }
 
 class _SchedulePageState extends ConsumerState<SchedulePage> {
+  var headers2 = [
+    TimePlannerTitle(
+      title: "SUN",
+      titleStyle:
+          TextBodyConstants.bold14.copyWith(color: ColorConstants.PRIMARY_400),
+    ),
+    TimePlannerTitle(
+      title: "MON",
+      titleStyle:
+          TextBodyConstants.bold14.copyWith(color: ColorConstants.PRIMARY_400),
+    ),
+    TimePlannerTitle(
+      title: "TUE",
+      titleStyle:
+          TextBodyConstants.bold14.copyWith(color: ColorConstants.PRIMARY_400),
+    ),
+    TimePlannerTitle(
+      title: "WED",
+      titleStyle:
+          TextBodyConstants.bold14.copyWith(color: ColorConstants.PRIMARY_400),
+    ),
+    TimePlannerTitle(
+      title: "THU",
+      titleStyle:
+          TextBodyConstants.bold14.copyWith(color: ColorConstants.PRIMARY_400),
+    ),
+    TimePlannerTitle(
+      title: "FRI",
+      titleStyle:
+          TextBodyConstants.bold14.copyWith(color: ColorConstants.PRIMARY_400),
+    ),
+    TimePlannerTitle(
+      title: "SAT",
+      titleStyle:
+          TextBodyConstants.bold14.copyWith(color: ColorConstants.PRIMARY_400),
+    ),
+  ];
   final List<TimePlannerTask> list = [];
   @override
   Widget build(BuildContext context) {
-    getDayNum(DaysCourse day) {
-      switch (day) {
-        case DaysCourse.sun:
-          return 0;
-
-        case DaysCourse.mon:
-          return 1;
-        case DaysCourse.tue:
-          return 2;
-        case DaysCourse.wed:
-          return 3;
-        case DaysCourse.thu:
-          return 4;
-        case DaysCourse.fri:
-          return 5;
-        case DaysCourse.sat:
-          return 6;
-      }
+    void deleteTask(Course course) {
+      list.removeWhere((task) => task.id == course.id);
     }
 
     getTimeTask(Course course) {
+      List<TimePlannerTask> tempo = [];
       for (DaysCourse day in course.days) {
-        return TimePlannerTask(
+        print(course.startTime);
+        tempo.add(TimePlannerTask(
+          id: course.id,
+          onTap: () async {
+            final res = await showDialog(
+              context: context,
+              builder: (context) => getDialog(
+                ref,
+                context,
+                course,
+              ),
+            );
+            if (res == true) {
+              print('its removed');
+
+              ref.invalidate(getCoursesProvider);
+            }
+            setState(() {});
+          },
           color: ColorConstants.PRIMARY_400,
-          minutesDuration: (course.endTime.hour - course.startTime.hour) * 60 +
-              (course.endTime.minute - course.startTime.minute),
+          minutesDuration:
+              ((course.endTime.hour - course.startTime.hour) * 60) +
+                  (course.endTime.minute - course.startTime.minute),
           dateTime: TimePlannerDateTime(
               day: getDayNum(day),
-              hour: course.startTime.hour,
+              hour: course.startTime.hour + 1,
               minutes: course.startTime.minute),
           child: Text(
             course.name,
-            style: TextBodyConstants.bold12,
+            style: TextBodyConstants.bold12
+                .copyWith(color: ColorConstants.PRIMARY_50),
             textAlign: TextAlign.center,
           ),
-        );
+        ));
       }
+      list.addAll(tempo);
+      return tempo;
     }
 
     final coursesProvider = ref.watch(getCoursesProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        actions: [
+          PopupMenuButton(
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem(
+                  child: Text("Finish Term"),
+                  value: 1,
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              title: Text("Finish Term"),
+                              content: Text(
+                                  "Are you sure you want to finish the term? This will delete all the courses."),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    context.pop();
+                                  },
+                                  child: Text("Cancel"),
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+                                    final res = await ref
+                                        .read(
+                                            coursesControllerProvider.notifier)
+                                        .deleteAllCourses();
+                                    res.fold((l) => (l), (r) {
+                                      ref.invalidate(getCoursesProvider);
+                                      setState(() {});
+                                      context.pop();
+                                    });
+                                  },
+                                  child: Text("Finish"),
+                                )
+                              ],
+                            ));
+                  },
+                )
+              ];
+            },
+          )
+        ],
         title: Align(
           alignment: Alignment.centerLeft,
           child: Text(
@@ -75,61 +164,21 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
       ),
       body: coursesProvider.when(
         data: (courses) {
+          list.clear();
           courses.map((course) {
-            for (DaysCourse day in course.days) {
-              list.add(TimePlannerTask(
-                onTap: () => showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    title: Text(course.name),
-                    actions: [
-                      TextButton(
-                        onPressed: () {},
-                        child: Text("Delete"),
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        child: Text("Edit"),
-                      )
-                    ],
-                  ),
-                ),
-                color: ColorConstants.PRIMARY_400,
-                minutesDuration:
-                    (course.endTime.hour - course.startTime.hour) * 60 +
-                        (course.endTime.minute - course.startTime.minute),
-                dateTime: TimePlannerDateTime(
-                    day: getDayNum(day),
-                    hour: course.startTime.hour,
-                    minutes: course.startTime.minute),
-                child: Text(
-                  course.name,
-                  style: TextBodyConstants.bold12,
-                  textAlign: TextAlign.center,
-                ),
-              ));
-            }
+            print(getTimeTask(course));
+            list.addAll(getTimeTask(course));
           }).toList();
-
+          print(list);
           return Scaffold(
             floatingActionButton: FloatingActionButton(
               onPressed: () async {
-                final res = await showModalBottomSheet<Course>(
-                  backgroundColor: ColorConstants.PRIMARY_400,
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (context) => Padding(
-                    padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewInsets.bottom),
-                    child: const AddCourseBottomsheet(),
-                  ),
-                );
-                if (res != null) {
-                  list.add(getTimeTask(res) as TimePlannerTask);
-                  print("added");
-                }
+                ref.invalidate(courseNameTextControllerProvider);
+                ref.invalidate(fromTimeProvider);
+                ref.invalidate(toTimeProvider);
+                final res = await addBottomSheet(context);
+                ref.invalidate(getCoursesProvider);
                 setState(() {});
-                print("hello world");
               },
               backgroundColor: ColorConstants.PRIMARY_400,
               tooltip: "Add Course",
@@ -142,48 +191,12 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
               tasks: list,
               style: TimePlannerStyle(
                   cellWidth: 50,
-                  cellHeight: 70,
+                  cellHeight: 50,
                   backgroundColor: ColorConstants.PRIMARY_100,
                   dividerColor: ColorConstants.PRIMARY_500),
-              startHour: 4,
+              startHour: 0,
               endHour: 23,
-              headers: [
-                TimePlannerTitle(
-                  title: "SUN",
-                  titleStyle: TextBodyConstants.bold14
-                      .copyWith(color: ColorConstants.PRIMARY_400),
-                ),
-                TimePlannerTitle(
-                  title: "MON",
-                  titleStyle: TextBodyConstants.bold14
-                      .copyWith(color: ColorConstants.PRIMARY_400),
-                ),
-                TimePlannerTitle(
-                  title: "TUE",
-                  titleStyle: TextBodyConstants.bold14
-                      .copyWith(color: ColorConstants.PRIMARY_400),
-                ),
-                TimePlannerTitle(
-                  title: "WED",
-                  titleStyle: TextBodyConstants.bold14
-                      .copyWith(color: ColorConstants.PRIMARY_400),
-                ),
-                TimePlannerTitle(
-                  title: "THU",
-                  titleStyle: TextBodyConstants.bold14
-                      .copyWith(color: ColorConstants.PRIMARY_400),
-                ),
-                TimePlannerTitle(
-                  title: "FRI",
-                  titleStyle: TextBodyConstants.bold14
-                      .copyWith(color: ColorConstants.PRIMARY_400),
-                ),
-                TimePlannerTitle(
-                  title: "SAT",
-                  titleStyle: TextBodyConstants.bold14
-                      .copyWith(color: ColorConstants.PRIMARY_400),
-                ),
-              ],
+              headers: headers2,
             ),
           );
         },
@@ -192,6 +205,74 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
         ),
         loading: () => const AppProgressIndicator(),
       ),
+    );
+  }
+
+  Future<Course?> addBottomSheet(BuildContext context) {
+    return showModalBottomSheet<Course>(
+      backgroundColor: ColorConstants.PRIMARY_400,
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => Padding(
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: AddCourseBottomsheet(),
+      ),
+    );
+  }
+
+  AlertDialog getDialog(WidgetRef ref, BuildContext context, Course course) {
+    return AlertDialog(
+      title: Text(course.name),
+      actions: [
+        TextButton(
+          onPressed: () async {
+            final res = await ref
+                .read(coursesControllerProvider.notifier)
+                .deleteCourse(course);
+
+            res.fold((l) => (l), (r) {
+              context.pop(true);
+              ref.invalidate(getCoursesProvider);
+            });
+          },
+          child: Text("Delete"),
+        ),
+        TextButton(
+          onPressed: () async {
+            context.pop();
+            String fromTime = DateFormat('h:mm a')
+                .format(DateTime.parse(course.startTime.toString()));
+            String toTime = DateFormat('h:mm a')
+                .format(DateTime.parse(course.endTime.toString()));
+            print(fromTime);
+
+            ref.read(courseNameTextControllerProvider).text = course.name;
+            ref.read(fromTimeProvider).text = fromTime;
+            ref.read(toTimeProvider).text = toTime;
+            final res = await showModalBottomSheet<Course>(
+              backgroundColor: ColorConstants.PRIMARY_400,
+              context: context,
+              isScrollControlled: true,
+              builder: (context) => Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: AddCourseBottomsheet(
+                  initDays: course.days,
+                  id: course.id,
+                ),
+              ),
+            );
+            //TODO: see how to update the thing.
+            if (res != null) {
+              // return res;
+              ref.invalidate(getCoursesProvider);
+              setState(() {});
+            }
+          },
+          child: Text("Edit"),
+        )
+      ],
     );
   }
 }

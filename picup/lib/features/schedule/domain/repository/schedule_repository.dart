@@ -6,4 +6,5 @@ abstract class ScheduleRepository {
   Future<Either<Fail, void>> addCourse({required Course course});
   Future<Either<Fail, void>> editCourse({required Course course});
   Future<Either<Fail, void>> deleteCourse({required Course course});
+  Future<Either<Fail, void>> deleteAllCourses();
 }
