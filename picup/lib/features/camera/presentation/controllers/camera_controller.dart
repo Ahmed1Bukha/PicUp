@@ -14,9 +14,10 @@ class CameraControllerNotifier extends AsyncNotifier<void> {
   FutureOr<void> build() {
     //Return nottihn
   }
-  Future<Either<Fail, String>> savePhoto({required File file}) async {
+  Future<Either<Fail, String>> savePhoto({required String path}) async {
+    print("done saving the thing");
     final resCourses = await ref.read(cameraRepositoryProvider).getCourses();
-    final path = file.path;
+
     return resCourses.fold((l) => Left(Fail(l)), (courses) async {
       DateTime now = DateTime.now();
       String dayName = DateFormat('EEEE').format(now);

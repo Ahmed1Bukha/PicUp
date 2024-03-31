@@ -1,8 +1,10 @@
 import 'package:calendar_view/calendar_view.dart';
+import 'package:camera_camera/camera_camera.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:picup/features/camera/presentation/screens/home_page.dart';
 import 'package:picup/features/schedule/domain/entity/coures.dart';
 import 'package:picup/util/constants.dart';
 import 'package:picup/util/go_router.dart';
@@ -11,6 +13,7 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final _cameras = await availableCameras();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -21,7 +24,12 @@ void main() async {
 
   var box = await Hive.openBox('course');
 
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(ProviderScope(
+    overrides: [
+      camereDescProvider.overrideWithValue(_cameras),
+    ],
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends ConsumerWidget {
