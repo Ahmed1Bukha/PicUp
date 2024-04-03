@@ -7,10 +7,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:picup/common/presentation/app_snackbar.dart';
 import 'package:picup/features/camera/presentation/controllers/camera_controller.dart';
 import 'package:picup/util/constants.dart';
-
-late List<CameraDescription> _cameras;
 
 final camereDescProvider = Provider<List<CameraDescription>?>((ref) {
   return null;
@@ -24,6 +23,7 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
+  double zoom = 1.0;
   late CameraController controller;
 
   @override
@@ -64,7 +64,34 @@ class _HomePageState extends ConsumerState<HomePage> {
     return Scaffold(
       body: Stack(
         children: [
-          Align(alignment: Alignment.center, child: CameraPreview(controller)),
+          GestureDetector(
+            onScaleUpdate: (details) async {
+              var maxZoomLevel = await controller.getMaxZoomLevel();
+
+              var dragIntensity = details.scale;
+              if (dragIntensity > 1 && zoom < maxZoomLevel) {
+                zoom += 0.01;
+                print(details.scale);
+              } else if (dragIntensity < 1 && zoom > 1) {
+                zoom -= 0.01;
+              }
+              setState(() {
+                controller.setZoomLevel(zoom);
+              });
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(9),
+              ),
+              child: Align(
+                alignment: Alignment.center,
+                child: CameraPreview(
+                  controller,
+                ),
+              ),
+            ),
+          ),
           Align(
             alignment: Alignment(0, 0.8),
             child: BlurryContainer(
@@ -99,7 +126,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                     icon: Container(
                         height: 120,
                         width: 120,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: ColorConstants.PRIMARY_50,
                         ),
@@ -107,7 +134,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                             child: Container(
                           height: 60,
                           width: 60,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: ColorConstants.PRIMARY_400,
                           ),
@@ -115,9 +142,14 @@ class _HomePageState extends ConsumerState<HomePage> {
                     onPressed: () async {
                       final file = await controller.takePicture();
 
-                      ref
+                      final res = await ref
                           .read(camerControllerProvider.notifier)
                           .savePhoto(path: file.path);
+
+                      res.fold(
+                          (l) => null,
+                          (r) => showSnackBar(
+                              context, "Added camera photo to gallery: $r"));
                     },
                   ),
                   Column(
@@ -130,7 +162,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                           width: 45,
                         ),
                         onPressed: () {
-                          context.go("/pictures");
+                          context.go("/my_courses");
                         },
                       ),
                       Text(

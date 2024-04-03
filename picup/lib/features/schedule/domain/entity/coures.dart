@@ -27,6 +27,14 @@ class Course {
     return days.contains(day);
   }
 
+  String getDays() {
+    String daysString = "";
+    days.forEach((element) {
+      daysString += element.toString().split('.').last + " ";
+    });
+    return daysString;
+  }
+
   DaysCourse getDayName(String day) {
     switch (day) {
       case "Saturday":

@@ -8,6 +8,7 @@ package= "com.example.picup">
         android:label="picup"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -35,6 +36,11 @@ package= "com.example.picup">
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+            
+
+            
     </application>
+    
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />
 </manifest>
