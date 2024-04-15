@@ -1,5 +1,7 @@
 import 'package:calendar_view/calendar_view.dart';
 import 'package:camera_camera/camera_camera.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -24,6 +26,26 @@ void main() async {
 
   var box = await Hive.openBox('course');
 
+  try {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user!.isAnonymous == false) {
+      final courses = box.values;
+
+      for (var course in courses) {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user!.uid)
+            .collection('courses')
+            .doc(course.id)
+            .set(course.toJson());
+
+        print("upaated course ${course.id}");
+      }
+    }
+  } catch (e) {
+    print('Error is : $e');
+  }
+
   runApp(ProviderScope(
     overrides: [
       camereDescProvider.overrideWithValue(_cameras),
@@ -37,17 +59,14 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return CalendarControllerProvider(
-      controller: ref.watch(eventControllerProvider),
-      child: MaterialApp.router(
-        theme: ThemeData(
-            scaffoldBackgroundColor: ColorConstants.PRIMARY_500,
-            appBarTheme: const AppBarTheme(
-                iconTheme: IconThemeData(color: ColorConstants.PRIMARY_100)),
-            fontFamily: "Inter"),
-        routerConfig: router,
-        debugShowCheckedModeBanner: true,
-      ),
+    return MaterialApp.router(
+      theme: ThemeData(
+          scaffoldBackgroundColor: ColorConstants.PRIMARY_500,
+          appBarTheme: const AppBarTheme(
+              iconTheme: IconThemeData(color: ColorConstants.PRIMARY_100)),
+          fontFamily: "Inter"),
+      routerConfig: router,
+      debugShowCheckedModeBanner: true,
     );
   }
 }

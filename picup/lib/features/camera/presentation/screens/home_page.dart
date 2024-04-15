@@ -62,121 +62,133 @@ class _HomePageState extends ConsumerState<HomePage> {
       return Container();
     }
     return Scaffold(
-      body: Stack(
-        children: [
-          GestureDetector(
-            onScaleUpdate: (details) async {
-              var maxZoomLevel = await controller.getMaxZoomLevel();
+      body: SafeArea(
+        child: Stack(
+          children: [
+            GestureDetector(
+              onScaleUpdate: (details) async {
+                var maxZoomLevel = await controller.getMaxZoomLevel();
 
-              var dragIntensity = details.scale;
-              if (dragIntensity > 1 && zoom < maxZoomLevel) {
-                zoom += 0.01;
-                print(details.scale);
-              } else if (dragIntensity < 1 && zoom > 1) {
-                zoom -= 0.01;
-              }
-              setState(() {
-                controller.setZoomLevel(zoom);
-              });
-            },
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(9),
-              ),
-              child: Align(
-                alignment: Alignment.center,
-                child: CameraPreview(
-                  controller,
+                var dragIntensity = details.scale;
+                if (dragIntensity > 1 && zoom < maxZoomLevel) {
+                  zoom += 0.01;
+                  print(details.scale);
+                } else if (dragIntensity < 1 && zoom > 1) {
+                  zoom -= 0.01;
+                }
+                setState(() {
+                  controller.setZoomLevel(zoom);
+                });
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(9),
+                ),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: CameraPreview(
+                    controller,
+                  ),
                 ),
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment(0, 0.8),
-            child: BlurryContainer(
-              color: ColorConstants.PRIMARY_400.withOpacity(0.4),
-              height: 110,
-              width: MediaQuery.of(context).size.width - 15,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        padding: EdgeInsets.all(0),
-                        icon: SvgPicture.asset(
-                          "assets/icons/Group.svg",
-                          width: 45,
+            Align(
+              alignment: Alignment(0, 0.8),
+              child: BlurryContainer(
+                color: ColorConstants.PRIMARY_400.withOpacity(0.4),
+                height: 110,
+                width: MediaQuery.of(context).size.width - 15,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          padding: EdgeInsets.all(0),
+                          icon: SvgPicture.asset(
+                            "assets/icons/Group.svg",
+                            width: 45,
+                          ),
+                          onPressed: () {
+                            context.go("/schedule");
+                          },
                         ),
-                        onPressed: () {
-                          context.go("/schedule");
-                        },
-                      ),
-                      Text(
-                        "Schedule",
-                        style: TextBodyConstants.bold12
-                            .copyWith(color: ColorConstants.PRIMARY_50),
-                      )
-                    ],
-                  ),
-                  IconButton(
-                    icon: Container(
-                        height: 120,
-                        width: 120,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: ColorConstants.PRIMARY_50,
-                        ),
-                        child: Center(
-                            child: Container(
-                          height: 60,
-                          width: 60,
+                        Text(
+                          "Schedule",
+                          style: TextBodyConstants.bold12
+                              .copyWith(color: ColorConstants.PRIMARY_50),
+                        )
+                      ],
+                    ),
+                    IconButton(
+                      icon: Container(
+                          height: 120,
+                          width: 120,
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
-                            color: ColorConstants.PRIMARY_400,
+                            color: ColorConstants.PRIMARY_50,
                           ),
-                        ))),
-                    onPressed: () async {
-                      final file = await controller.takePicture();
+                          child: Center(
+                              child: Container(
+                            height: 60,
+                            width: 60,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: ColorConstants.PRIMARY_400,
+                            ),
+                          ))),
+                      onPressed: () async {
+                        final file = await controller.takePicture();
 
-                      final res = await ref
-                          .read(camerControllerProvider.notifier)
-                          .savePhoto(path: file.path);
+                        final res = await ref
+                            .read(camerControllerProvider.notifier)
+                            .savePhoto(path: file.path);
 
-                      res.fold(
-                          (l) => null,
-                          (r) => showSnackBar(
-                              context, "Added camera photo to gallery: $r"));
-                    },
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        padding: EdgeInsets.all(0),
-                        icon: SvgPicture.asset(
-                          "assets/icons/Group (1).svg",
-                          width: 45,
+                        res.fold(
+                            (l) => null,
+                            (r) => showSnackBar(
+                                context, "Added camera photo to gallery: $r"));
+                      },
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          padding: EdgeInsets.all(0),
+                          icon: SvgPicture.asset(
+                            "assets/icons/Group (1).svg",
+                            width: 45,
+                          ),
+                          onPressed: () {
+                            context.go("/my_courses");
+                          },
                         ),
-                        onPressed: () {
-                          context.go("/my_courses");
-                        },
-                      ),
-                      Text(
-                        "My Folders",
-                        style: TextBodyConstants.bold12
-                            .copyWith(color: ColorConstants.PRIMARY_50),
-                      )
-                    ],
-                  ),
-                ],
+                        Text(
+                          "My Folders",
+                          style: TextBodyConstants.bold12
+                              .copyWith(color: ColorConstants.PRIMARY_50),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          )
-        ],
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon: Icon(
+                  Icons.settings,
+                  color: ColorConstants.PRIMARY_100,
+                ),
+                onPressed: () => context.push("/settings"),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

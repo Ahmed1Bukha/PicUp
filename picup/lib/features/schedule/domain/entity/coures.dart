@@ -22,6 +22,16 @@ class Course {
       required this.endTime,
       required this.id});
 
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'days': days.map((day) => day.toString().split('.').last).toList(),
+      'startTime': startTime.toIso8601String(),
+      'endTime': endTime.toIso8601String(),
+      'id': id,
+    };
+  }
+
   bool hasDay(DaysCourse day) {
     print(day);
     return days.contains(day);

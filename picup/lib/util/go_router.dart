@@ -7,6 +7,7 @@ import 'package:picup/features/camera/presentation/screens/home_page.dart';
 import 'package:picup/features/my_courses/presentation/screens/my_courses_screen.dart';
 import 'package:picup/features/on_boarding/presentation/screen/on_boarding_main.dart';
 import 'package:picup/features/schedule/presentation/screens/schedule.dart';
+import 'package:picup/features/settings/presentation/screens/settings_screen.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: "/",
@@ -15,6 +16,10 @@ final GoRouter router = GoRouter(
       path: '/',
       builder: (context, state) => const HomePage(),
       routes: <RouteBase>[
+        GoRoute(
+          path: 'settings',
+          builder: (context, state) => const SettingsScereen(),
+        ),
         GoRoute(
           path: 'onboarding',
           builder: (context, state) => const OnBoardingMain(),

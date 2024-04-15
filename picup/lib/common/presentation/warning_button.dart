@@ -8,8 +8,8 @@ class WarningButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      textColor: ColorConstants.PRIMARY_300,
-      color: Colors.white,
+      textColor: Colors.white,
+      color: Colors.red,
       onPressed: onTap(),
       child: Text(
         text,

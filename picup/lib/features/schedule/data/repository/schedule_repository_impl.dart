@@ -1,16 +1,20 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:picup/features/schedule/data/datasource/schedule_local_datasource.dart';
+import 'package:picup/features/schedule/data/datasource/schedule_remote_datasource.dart';
 import 'package:picup/features/schedule/domain/entity/coures.dart';
 import 'package:picup/features/schedule/domain/repository/schedule_repository.dart';
 
 class ScheduleRepositoryImp extends ScheduleRepository {
   final ScheduleLocalDatasource localDatasource;
+  final ScheduleRemoteDatasource remoteDatasource;
 
-  ScheduleRepositoryImp({required this.localDatasource});
+  ScheduleRepositoryImp(
+      {required this.localDatasource, required this.remoteDatasource});
   @override
   Future<Either<Fail, void>> addCourse({required Course course}) async {
     try {
+      remoteDatasource.addCourse(course);
       final res = await localDatasource.addCourse(course);
       return Right("");
     } catch (e) {
@@ -22,6 +26,7 @@ class ScheduleRepositoryImp extends ScheduleRepository {
   @override
   Future<Either<Fail, void>> deleteCourse({required Course course}) async {
     try {
+      remoteDatasource.deleteCourse(course);
       final res = await localDatasource.deleteCourse(course);
       return Right("");
     } catch (e) {
@@ -66,5 +71,7 @@ class ScheduleRepositoryImp extends ScheduleRepository {
 }
 
 final scheduleRepositoryProvider = Provider<ScheduleRepository>((ref) {
-  return ScheduleRepositoryImp(localDatasource: ScheduleLocalDatasource());
+  return ScheduleRepositoryImp(
+      localDatasource: ScheduleLocalDatasource(),
+      remoteDatasource: ScheduleRemoteDatasource());
 });
