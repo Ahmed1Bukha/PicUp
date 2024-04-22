@@ -10,9 +10,15 @@ class SettingsRepoImpl extends SettingsRepository {
   SettingsRepoImpl(
       {required this.localDatasource, required this.remoteDatasource});
   @override
-  Future<Either<Fail, void>> deleteAccount({required String password}) async {
-    // TODO: implement deleteAccount
-    throw UnimplementedError();
+  Future<Either<Fail, void>> deleteAccount() async {
+    try {
+      await remoteDatasource.deleteAccount();
+      await localDatasource.deleteEmailAndUsername();
+      await localDatasource.deleteAllCourses();
+      return Right("");
+    } catch (e) {
+      return Left(Fail(e));
+    }
   }
 
   @override

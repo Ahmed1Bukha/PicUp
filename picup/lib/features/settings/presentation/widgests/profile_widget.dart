@@ -53,7 +53,7 @@ class InfoProfile extends StatelessWidget {
               shape: BoxShape.circle, color: ColorConstants.PRIMARY_100),
           child: Center(
               child: Text(
-            name.substring(0, 2),
+            name.substring(0, 2).toUpperCase(),
             style: TextHeadersContatns.h3.copyWith(
                 fontWeight: FontWeight.bold, color: ColorConstants.PRIMARY_500),
           )),

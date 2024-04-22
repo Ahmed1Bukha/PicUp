@@ -1,13 +1,12 @@
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:camera_camera/camera_camera.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:picup/common/presentation/app_snackbar.dart';
 import 'package:picup/features/camera/presentation/controllers/camera_controller.dart';
 import 'package:picup/util/constants.dart';
@@ -26,14 +25,16 @@ class HomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<HomePage> {
   double zoom = 1.0;
   late CameraController controller;
+  bool isTaking = false;
 
   @override
   void initState() {
     super.initState();
     controller = CameraController(
         ref.read(camereDescProvider)![0], ResolutionPreset.max);
-    controller.setFlashMode(FlashMode.off);
+
     controller.initialize().then((_) {
+      controller.setFlashMode(FlashMode.off);
       if (!mounted) {
         return;
       }
@@ -125,36 +126,48 @@ class _HomePageState extends ConsumerState<HomePage> {
                         )
                       ],
                     ).animate(delay: Duration(milliseconds: 500)).fadeIn(),
-                    IconButton(
-                      icon: Container(
-                          height: 120,
-                          width: 120,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: ColorConstants.PRIMARY_50,
-                          ),
-                          child: Center(
-                              child: Container(
-                            height: 60,
-                            width: 60,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: ColorConstants.PRIMARY_400,
-                            ),
-                          ))),
-                      onPressed: () async {
-                        final file = await controller.takePicture();
+                    isTaking
+                        ? LoadingAnimationWidget.waveDots(
+                            color: ColorConstants.PRIMARY_50, size: 40)
+                        : IconButton(
+                            icon: Container(
+                                height: 120,
+                                width: 120,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: ColorConstants.PRIMARY_50,
+                                ),
+                                child: Center(
+                                    child: Container(
+                                  height: 60,
+                                  width: 60,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: ColorConstants.PRIMARY_400,
+                                  ),
+                                ))),
+                            onPressed: () async {
+                              setState(() {
+                                isTaking = true;
+                              });
 
-                        final res = await ref
-                            .read(camerControllerProvider.notifier)
-                            .savePhoto(path: file.path);
+                              final file = await controller.takePicture();
 
-                        res.fold(
-                            (l) => null,
-                            (r) => showSnackBar(
-                                context, "Added camera photo to gallery: $r"));
-                      },
-                    ).animate(delay: Duration(milliseconds: 500)).fadeIn(),
+                              final res = await ref
+                                  .read(camerControllerProvider.notifier)
+                                  .savePhoto(path: file.path);
+
+                              res.fold(
+                                  (l) => null,
+                                  (r) => showSnackBar(context,
+                                      "Added camera photo to gallery: $r"));
+                              setState(() {
+                                isTaking = false;
+                              });
+                            },
+                          )
+                            .animate(delay: Duration(milliseconds: 500))
+                            .fadeIn(),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

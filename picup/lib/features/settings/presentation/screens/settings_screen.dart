@@ -87,7 +87,41 @@ class SettingsScereen extends ConsumerWidget {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: AppButton(
-                  onTap: () => null,
+                  onTap: () => showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text("Delete Account"),
+                      content: const Text(
+                          "Are you sure you want to delete your account?"),
+                      actions: [
+                        TextButton(
+                            onPressed: () => context.pop(),
+                            child: const Text(
+                              "Cancel",
+                              style:
+                                  TextStyle(color: ColorConstants.PRIMARY_50),
+                            )),
+                        controller is AsyncLoading
+                            ? const CircularProgressIndicator()
+                            : TextButton(
+                                onPressed: () async {
+                                  final res = await ref
+                                      .read(settingsControllerProvider.notifier)
+                                      .deleteAccount();
+                                  res.fold(
+                                      (l) => const SnackBar(
+                                          content: Text(
+                                              "Something went wrong. Try again")),
+                                      (r) => context.go("/auth"));
+                                },
+                                child: const Text(
+                                  "Delete",
+                                  style: TextStyle(
+                                      color: ColorConstants.PRIMARY_50),
+                                ))
+                      ],
+                    ),
+                  ),
                   text: "Delete Account",
                   variation: AppButtonVariation.warning,
                 ),
@@ -95,7 +129,7 @@ class SettingsScereen extends ConsumerWidget {
             ],
           ).animate().fadeIn(
                 duration: Durations.medium4,
-                delay: Duration(milliseconds: 300),
+                delay: const Duration(milliseconds: 300),
               ),
           Padding(
             padding: const EdgeInsets.all(8.0),

@@ -16,6 +16,13 @@ class SettingsControllerNotifier extends AsyncNotifier<void> {
     state = const AsyncValue.data("");
     return res;
   }
+
+  Future<Either<Fail, void>> deleteAccount() async {
+    state = const AsyncValue.loading();
+    final res = await ref.read(settingsRepositoryProvider).deleteAccount();
+    state = const AsyncValue.data("");
+    return res;
+  }
 }
 
 final settingsControllerProvider =

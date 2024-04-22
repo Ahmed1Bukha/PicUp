@@ -1,5 +1,7 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:picup/common/presentation/app_button.dart';
 import 'package:picup/util/app_spacing.dart';
@@ -11,45 +13,78 @@ class MainAuth extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Center(
-              child: Text(
-                "PicUp",
-                style: TextHeadersContatns.h1
-                    .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+      body: PopScope(
+        canPop: false,
+        child: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Center(
+                child: Text(
+                  "PicUp",
+                  style: TextHeadersContatns.h1.copyWith(
+                      color: Colors.white, fontWeight: FontWeight.w600),
+                )
+                    .animate()
+                    .slideY(
+                      duration: Durations.extralong1,
+                      curve: Curves.easeInOut,
+                    )
+                    .fadeIn(),
               ),
-            ),
-            const SizedBox(),
-            Column(
-              children: [
-                Text(
-                  "Begin your journey with PicUp!",
-                  style: TextBodyConstants.bold20.copyWith(color: Colors.white),
-                ),
-                AppSpacing.kSpaceY6,
-                SizedBox(
-                    width: 300,
-                    child: AppButton(
+              const SizedBox(),
+              // SvgPicture.asset(
+              //   "assets/icons/App Icon (3).svg",
+              //   width: 350,
+              // ),
+              const Image(
+                image: AssetImage("assets/icons/App Icon (7).png"),
+              )
+                  .animate()
+                  .slideY(
+                    duration: Durations.long4,
+                    curve: Curves.easeInOut,
+                    delay: Duration(milliseconds: 500),
+                  )
+                  .fadeIn(
+                    delay: Duration(milliseconds: 500),
+                  ),
+              Column(
+                children: [
+                  Text(
+                    "Organize your photos with ease!",
+                    style:
+                        TextBodyConstants.bold20.copyWith(color: Colors.white),
+                  ),
+                  AppSpacing.kSpaceY6,
+                  SizedBox(
+                      width: 300,
+                      child: AppButton(
+                          onTap: () {
+                            context.go("/auth/login");
+                          },
+                          text: "Login")),
+                  AppSpacing.kSpaceY5,
+                  SizedBox(
+                      width: 300,
+                      child: AppButton(
                         onTap: () {
-                          context.go("/auth/login");
+                          context.go("/auth/register");
                         },
-                        text: "Login")),
-                AppSpacing.kSpaceY5,
-                SizedBox(
-                    width: 300,
-                    child: AppButton(
-                      onTap: () {
-                        context.go("/auth/register");
-                      },
-                      text: "Register",
-                      variation: AppButtonVariation.secondary,
-                    ))
-              ],
-            )
-          ],
+                        text: "Register",
+                        variation: AppButtonVariation.secondary,
+                      ))
+                ],
+              )
+                  .animate()
+                  .slideY(
+                    duration: Durations.extralong1,
+                    curve: Curves.easeInOut,
+                    delay: Duration(milliseconds: 500),
+                  )
+                  .fadeIn(delay: Duration(milliseconds: 500)),
+            ],
+          ),
         ),
       ),
     );
