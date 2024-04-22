@@ -22,6 +22,18 @@ class Course {
       required this.endTime,
       required this.id});
 
+  factory Course.fromJson(Map<String, dynamic> json) {
+    return Course(
+      name: json['name'],
+      days: (json['days'] as List<dynamic>)
+          .map((day) => getDaysFetched(day))
+          .toList(),
+      startTime: DateTime.parse(json['startTime']),
+      endTime: DateTime.parse(json['endTime']),
+      id: json['id'],
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'name': name,
@@ -30,19 +42,6 @@ class Course {
       'endTime': endTime.toIso8601String(),
       'id': id,
     };
-  }
-
-  bool hasDay(DaysCourse day) {
-    print(day);
-    return days.contains(day);
-  }
-
-  String getDays() {
-    String daysString = "";
-    days.forEach((element) {
-      daysString += element.toString().split('.').last + " ";
-    });
-    return daysString;
   }
 
   DaysCourse getDayName(String day) {
@@ -66,6 +65,19 @@ class Course {
         return DaysCourse.sun;
     }
   }
+
+  bool hasDay(DaysCourse day) {
+    print(day);
+    return days.contains(day);
+  }
+
+  String getDays() {
+    String daysString = "";
+    days.forEach((element) {
+      daysString += element.toString().split('.').last + " ";
+    });
+    return daysString;
+  }
 }
 
 @HiveType(typeId: 2)
@@ -84,4 +96,26 @@ enum DaysCourse {
   fri,
   @HiveField(6)
   sat,
+}
+
+DaysCourse getDaysFetched(String day) {
+  switch (day) {
+    case "sat":
+      return DaysCourse.sat;
+
+    case "sun":
+      return DaysCourse.sun;
+    case "mon":
+      return DaysCourse.mon;
+    case "tue":
+      return DaysCourse.tue;
+    case "wed":
+      return DaysCourse.wed;
+    case "thu":
+      return DaysCourse.thu;
+    case "fri":
+      return DaysCourse.fri;
+    default:
+      return DaysCourse.sun;
+  }
 }

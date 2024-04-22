@@ -2,6 +2,7 @@ import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:camera_camera/camera_camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     super.initState();
     controller = CameraController(
         ref.read(camereDescProvider)![0], ResolutionPreset.max);
+    controller.setFlashMode(FlashMode.off);
     controller.initialize().then((_) {
       if (!mounted) {
         return;
@@ -118,11 +120,11 @@ class _HomePageState extends ConsumerState<HomePage> {
                         ),
                         Text(
                           "Schedule",
-                          style: TextBodyConstants.bold12
+                          style: TextBodyConstants.bold14
                               .copyWith(color: ColorConstants.PRIMARY_50),
                         )
                       ],
-                    ),
+                    ).animate(delay: Duration(milliseconds: 500)).fadeIn(),
                     IconButton(
                       icon: Container(
                           height: 120,
@@ -152,7 +154,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                             (r) => showSnackBar(
                                 context, "Added camera photo to gallery: $r"));
                       },
-                    ),
+                    ).animate(delay: Duration(milliseconds: 500)).fadeIn(),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -168,15 +170,15 @@ class _HomePageState extends ConsumerState<HomePage> {
                         ),
                         Text(
                           "My Folders",
-                          style: TextBodyConstants.bold12
+                          style: TextBodyConstants.bold14
                               .copyWith(color: ColorConstants.PRIMARY_50),
                         )
                       ],
-                    ),
+                    ).animate(delay: Duration(milliseconds: 500)).fadeIn(),
                   ],
                 ),
               ),
-            ),
+            ).animate().fadeIn(),
             Align(
               alignment: Alignment.topRight,
               child: IconButton(

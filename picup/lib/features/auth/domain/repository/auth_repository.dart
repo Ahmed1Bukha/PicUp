@@ -7,4 +7,5 @@ abstract class AuthRepository {
       {required String email,
       required String password,
       required String username});
+  Future<void> saveCourses(String uid);
 }

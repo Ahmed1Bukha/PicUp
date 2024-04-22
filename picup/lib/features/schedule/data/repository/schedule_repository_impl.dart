@@ -62,6 +62,7 @@ class ScheduleRepositoryImp extends ScheduleRepository {
   Future<Either<Fail, void>> deleteAllCourses() async {
     try {
       final res = localDatasource.deleteAllCourses();
+      remoteDatasource.deleteAllCourses();
       return Right("");
     } catch (e) {
       print(e);

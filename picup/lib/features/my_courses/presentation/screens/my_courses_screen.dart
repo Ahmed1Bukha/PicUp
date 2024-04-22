@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:gal/gal.dart';
@@ -44,19 +45,32 @@ class MyCoursesScreen extends ConsumerWidget {
                       ],
                     ),
                   )
-                : ListView.builder(
-                    itemBuilder: (context, index) => ShowCourseWidget(
-                      courseInfo: data[index],
-                      onTap: () async {
-                        Gal.open();
-                      },
+                : ListView(
+                    children: AnimateList(
+                      interval: Duration(milliseconds: 300),
+                      children: data
+                          .map((e) => ShowCourseWidget(
+                                courseInfo: e,
+                                onTap: () async {
+                                  await Gal.open();
+                                },
+                              ))
+                          .toList(),
+                      effects: [
+                        const SlideEffect(
+                          begin: Offset(-1, 0),
+                          end: Offset(0, 0),
+                          curve: Curves.easeInOut,
+                          duration: Durations.long4,
+                        ),
+                        const FadeEffect(duration: Durations.long4)
+                      ],
                     ),
-                    itemCount: data.length,
                   ),
             error: (error, stackTrace) => Center(
               child: Text("Error: $error"),
             ),
-            loading: () => CircularProgressIndicator(),
+            loading: () => const CircularProgressIndicator(),
           ),
     );
   }

@@ -7,13 +7,26 @@ class WarningButton extends StatelessWidget {
   final String text;
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      textColor: Colors.white,
-      color: Colors.red,
+    return TextButton(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+          EdgeInsets.symmetric(
+            vertical: 8,
+            horizontal: 16,
+          ),
+        ),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+      ),
       onPressed: onTap(),
       child: Text(
         text,
-        style: TextHeadersContatns.h3.copyWith(fontWeight: FontWeight.bold),
+        style: TextHeadersContatns.h3
+            .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
       ),
     );
   }

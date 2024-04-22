@@ -21,25 +21,32 @@ class ContactInfoWidget extends StatelessWidget {
       children: [
         Text(
           "You can find me @:",
-          style:
-              TextHeadersContatns.h3.copyWith(color: ColorConstants.PRIMARY_50),
+          style: TextHeadersContatns.h4.copyWith(
+              color: ColorConstants.PRIMARY_50, fontWeight: FontWeight.bold),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             IconButton(
-                onPressed: () async {
-                  final Uri _url = Uri.parse('https://twitter.com/NotBukha');
-                  await _launchUrl(_url);
-                },
-                icon: SvgPicture.asset("assets/icons/uil_twitter.svg")),
+              onPressed: () async {
+                final Uri _url = Uri.parse('https://twitter.com/NotBukha');
+                await _launchUrl(_url);
+              },
+              icon: SvgPicture.asset(
+                "assets/icons/uil_twitter.svg",
+                width: 50,
+              ),
+            ),
             IconButton(
                 onPressed: () async {
                   final Uri _url = Uri.parse(
                       'https://www.linkedin.com/in/ahmed-bukhamsin-2174aa245/');
                   await _launchUrl(_url);
                 },
-                icon: SvgPicture.asset("assets/icons/mdi_linkedin.svg")),
+                icon: SvgPicture.asset(
+                  "assets/icons/mdi_linkedin.svg",
+                  width: 50,
+                )),
             IconButton(
                 onPressed: () async {
                   final Uri emailLaunchUri = Uri(
@@ -50,8 +57,10 @@ class ContactInfoWidget extends StatelessWidget {
 
                   await _launchUrl(emailLaunchUri);
                 },
-                icon:
-                    SvgPicture.asset("assets/icons/mdi_microsoft-outlook.svg"))
+                icon: SvgPicture.asset(
+                  "assets/icons/mdi_microsoft-outlook.svg",
+                  width: 50,
+                ))
           ],
         )
       ],

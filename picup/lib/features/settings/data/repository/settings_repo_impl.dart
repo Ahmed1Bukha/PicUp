@@ -19,8 +19,19 @@ class SettingsRepoImpl extends SettingsRepository {
   Future<Either<Fail, void>> signout() async {
     try {
       await localDatasource.deleteAllCourses();
+      await localDatasource.deleteEmailAndUsername();
       await remoteDatasource.signOut();
       return Right("");
+    } catch (e) {
+      return Left(Fail(e));
+    }
+  }
+
+  @override
+  Future<Either<Fail, String?>> fetchUsername() async {
+    try {
+      final res = await localDatasource.fetchUsername();
+      return Right(res);
     } catch (e) {
       return Left(Fail(e));
     }

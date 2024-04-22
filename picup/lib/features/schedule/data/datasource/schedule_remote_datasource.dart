@@ -26,4 +26,21 @@ class ScheduleRemoteDatasource {
       print(e);
     }
   }
+
+  Future<void> deleteAllCourses() async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user!.uid)
+          .collection('courses')
+          .get()
+          .then((snapshot) {
+        for (DocumentSnapshot ds in snapshot.docs) {
+          ds.reference.delete();
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
 }

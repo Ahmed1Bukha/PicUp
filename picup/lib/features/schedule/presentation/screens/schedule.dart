@@ -115,21 +115,30 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
             itemBuilder: (context) {
               return [
                 PopupMenuItem(
-                  child: Text("Finish Term"),
+                  child: Text(
+                    "Finish Term",
+                    style: TextStyle(
+                        color: ColorConstants.PRIMARY_50,
+                        fontWeight: FontWeight.bold),
+                  ),
                   value: 1,
                   onTap: () {
                     showDialog(
                         context: context,
                         builder: (context) => AlertDialog(
-                              title: Text("Finish Term"),
-                              content: Text(
+                              title: const Text("Finish Term"),
+                              content: const Text(
                                   "Are you sure you want to finish the term? This will delete all the courses."),
                               actions: [
                                 TextButton(
                                   onPressed: () {
                                     context.pop();
                                   },
-                                  child: Text("Cancel"),
+                                  child: const Text(
+                                    "Cancel",
+                                    style: TextStyle(
+                                        color: ColorConstants.PRIMARY_50),
+                                  ),
                                 ),
                                 TextButton(
                                   onPressed: () async {
@@ -138,12 +147,16 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
                                             coursesControllerProvider.notifier)
                                         .deleteAllCourses();
                                     res.fold((l) => (l), (r) {
+                                      context.pop();
                                       ref.invalidate(getCoursesProvider);
                                       setState(() {});
-                                      context.pop();
                                     });
                                   },
-                                  child: Text("Finish"),
+                                  child: Text(
+                                    "Finish",
+                                    style: TextStyle(
+                                        color: ColorConstants.PRIMARY_50),
+                                  ),
                                 )
                               ],
                             ));
@@ -236,7 +249,10 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
               ref.invalidate(getCoursesProvider);
             });
           },
-          child: Text("Delete"),
+          child: Text(
+            "Delete",
+            style: TextStyle(color: ColorConstants.PRIMARY_50),
+          ),
         ),
         TextButton(
           onPressed: () async {
@@ -270,7 +286,10 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
               setState(() {});
             }
           },
-          child: Text("Edit"),
+          child: Text(
+            "Edit",
+            style: TextStyle(color: ColorConstants.PRIMARY_50),
+          ),
         )
       ],
     );

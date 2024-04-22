@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:picup/features/auth/data/repository/auth_repository_impl.dart';
+import 'package:picup/features/schedule/presentation/controllers/get_courses.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_controller.g.dart';
@@ -18,6 +19,7 @@ class AuthenticationNotifier extends _$AuthenticationNotifier {
     final res = await ref
         .read(authRepositoryProvider)
         .login(email: email, password: password);
+    ref.invalidate(getCoursesProvider);
     state = const AsyncValue.data(null);
     return res;
   }
@@ -30,6 +32,7 @@ class AuthenticationNotifier extends _$AuthenticationNotifier {
     final res = await ref
         .read(authRepositoryProvider)
         .register(email: email, password: password, username: username);
+    ref.invalidate(getCoursesProvider);
     state = const AsyncValue.data(null);
     return res;
   }

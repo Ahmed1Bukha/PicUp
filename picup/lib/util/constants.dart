@@ -35,3 +35,9 @@ class TextBodyConstants {
   static const bold12 =
       TextStyle(fontSize: 12, fontFamily: "Inter", fontWeight: FontWeight.bold);
 }
+
+class SaveLocalConstant {
+  static const email = "email";
+  static const username = "username";
+  static const firstTime = "firstTime";
+}
