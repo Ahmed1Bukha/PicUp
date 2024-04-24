@@ -17,7 +17,13 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final _cameras = await availableCameras();
+  List<CameraDescription> _cameras = [];
+  try {
+    _cameras = await availableCameras();
+  } catch (e) {
+    print('Error is : $e');
+  }
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
