@@ -106,7 +106,7 @@ class MyApp extends ConsumerWidget {
           )),
           fontFamily: "Inter"),
       routerConfig: ref.read(goRouterProvider(initiLocation)),
-      debugShowCheckedModeBanner: true,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

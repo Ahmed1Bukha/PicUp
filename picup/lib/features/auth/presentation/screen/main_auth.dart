@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
@@ -57,23 +59,29 @@ class MainAuth extends ConsumerWidget {
                         TextBodyConstants.bold20.copyWith(color: Colors.white),
                   ),
                   AppSpacing.kSpaceY6,
-                  SizedBox(
-                      width: 300,
-                      child: AppButton(
-                          onTap: () {
-                            context.go("/auth/login");
-                          },
-                          text: "Login")),
+                  Hero(
+                    tag: "login",
+                    child: SizedBox(
+                        width: 300,
+                        child: AppButton(
+                            onTap: () {
+                              context.go("/auth/login");
+                            },
+                            text: "Login")),
+                  ),
                   AppSpacing.kSpaceY5,
-                  SizedBox(
-                      width: 300,
-                      child: AppButton(
-                        onTap: () {
-                          context.go("/auth/register");
-                        },
-                        text: "Register",
-                        variation: AppButtonVariation.secondary,
-                      ))
+                  Hero(
+                    tag: "register",
+                    child: SizedBox(
+                        width: 300,
+                        child: AppButton(
+                          onTap: () {
+                            context.go("/auth/register");
+                          },
+                          text: "Register",
+                          variation: AppButtonVariation.secondary,
+                        )),
+                  )
                 ],
               )
                   .animate()
