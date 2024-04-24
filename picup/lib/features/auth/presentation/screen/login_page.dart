@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -43,10 +44,13 @@ class LoginPage extends ConsumerWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  "Login",
-                  style: TextHeadersContatns.h1.copyWith(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+                Hero(
+                  tag: "login",
+                  child: Text(
+                    "Login",
+                    style: TextHeadersContatns.h1.copyWith(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
                 ),
                 Text(
                   "Welcome back my friend!",
