@@ -4,7 +4,8 @@
 An mobile app to help you orginaze photos into albums depending on the time of taking it. 
 
 
-![Logo](https://media.discordapp.net/attachments/817968941467959316/1232562274611363891/App_Icon_7.png?ex=6629e892&is=66289712&hm=6df3132f2822dbc3907b33672400282b03e78bd33caae0af51d06b0ea627ddcf&=&format=webp&quality=lossless&width=353&height=350)
+![App Icon (7)](https://github.com/Ahmed1Bukha/PicUp/assets/56551464/354385cb-a4e5-4dcc-9b0d-75719d561140)
+
 
 
 ## Tech Stack
