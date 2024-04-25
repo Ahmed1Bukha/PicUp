@@ -40,14 +40,13 @@ https://github.com/Ahmed1Bukha/PicUp/assets/56551464/608eda9b-fac8-461b-9d2c-548
 
 ## Acknowledgements
 
-
+ - [My Friend Aziz for helping me design the App Logo](https://github.com/azizbo50)
  - [Awesome README](https://github.com/matiassingers/awesome-readme)
 
- - [My Friend Aziz for helping me design the App Logo](https://github.com/azizbo50)
 
 ## Feedback
 
-- If you have any feedback, please reach out to us at ahmedbukha@hotmail.com
+- If you have any feedback, please reach out to me @ ahmedbukha@hotmail.com
 
 - Or through my Twitter  - [@NotBukha](https://twitter.com/NotBukha)
 
