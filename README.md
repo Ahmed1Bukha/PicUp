@@ -4,7 +4,8 @@
 An mobile app to help you orginaze photos into albums depending on the time of taking it. 
 
 
-![App Icon (7)](https://github.com/Ahmed1Bukha/PicUp/assets/56551464/354385cb-a4e5-4dcc-9b0d-75719d561140)
+![App Icon (8) 1](https://github.com/Ahmed1Bukha/PicUp/assets/56551464/789efd3b-87ca-4e9d-8d93-c15e33d5a6df)
+
 
 
 
