@@ -35,15 +35,8 @@ https://github.com/Ahmed1Bukha/PicUp/assets/56551464/608eda9b-fac8-461b-9d2c-548
 
 ## Screenshots
 
-![App Screenshot](https://media.discordapp.net/attachments/1189505783357001781/1232945152155455528/Screenshot_20240425_094329.jpg?ex=662b4d27&is=6629fba7&hm=1ec27db8ae469142f0a5842725965e1fa1b2b20a76ff463f699436f35807882d&=&format=webp&width=550&height=1192)
+![Group 6](https://github.com/Ahmed1Bukha/PicUp/assets/56551464/03b91530-6b1f-4a52-8bd1-cd9cf9ef71a9)
 
-![App Screenshot](https://media.discordapp.net/attachments/1189505783357001781/1232945152960761856/Screenshot_20240425_094302.jpg?ex=662b4d27&is=6629fba7&hm=79e6b15c6e99aa9cdd5cb03c06dd71378889ffd22d3274530314ce010d6ae0d7&=&format=webp&width=550&height=1192)
-
-![App Screenshot](https://media.discordapp.net/attachments/1189505783357001781/1232945153216479365/Screenshot_20240425_094220.jpg?ex=662b4d27&is=6629fba7&hm=4e27ab56e37482c3b54d2b9496b5ece8431f76a00379801f37fbfb033e70ca3f&=&format=webp&width=550&height=1192)
-
-![App Screenshot](https://media.discordapp.net/attachments/1189505783357001781/1232945152692060170/Screenshot_20240425_094311.jpg?ex=662b4d27&is=6629fba7&hm=4470a052208021038466928ded15b8138aa34b55b3f0868b05cce10b520431bf&=&format=webp&width=550&height=800)
-
-![App Screenshot](https://media.discordapp.net/attachments/1189505783357001781/1232945152394395689/Screenshot_20240425_094316.jpg?ex=662b4d27&is=6629fba7&hm=5bad73554db2b1d31e641928c78c25b3396606b793f257f567dc5733cdaf2a8d&=&format=webp&width=550&height=800)
 
 ## Acknowledgements
 
