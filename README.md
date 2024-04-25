@@ -1,7 +1,7 @@
 
 # PicUp
 
-An mobile app to help you orginaze photos into albums depending on the time of taking it. 
+An mobile app to help you organize photos into albums depending on the time of taking it. 
 
 
 ![App Icon (8) 1](https://github.com/Ahmed1Bukha/PicUp/assets/56551464/789efd3b-87ca-4e9d-8d93-c15e33d5a6df)
