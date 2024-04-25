@@ -16,8 +16,6 @@ https://www.figma.com/file/quepmfuMFi78nscyHI77pH/Main?type=design&node-id=3%3A1
 
 
 
-<video width="1080" height="1920" autoplay>
-  <source src="https://cdn.discordapp.com/attachments/1189505783357001781/1232944046750830683/Timeline_1.mov?ex=662b4c1f&is=6629fa9f&hm=dbfe04dcfdcd2b1d177d6feb282f417e102d561d892bb03ba278c1a66f658c18&" type="video/mov">
-  
-Your browser does not support the video tag.
-</video>
+
+https://github.com/Ahmed1Bukha/PicUp/assets/56551464/608eda9b-fac8-461b-9d2c-5486c64ce8a0
+
